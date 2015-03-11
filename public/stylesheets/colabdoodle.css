@@ -1,0 +1,59 @@
+@import url(http://fonts.googleapis.com/css?family=Varela);
+
+body{
+    background-color: #444;
+}
+
+h1{
+    color:#ccc;
+    text-align: center;
+    font-family: 'Varela', sans-serif;
+}
+
+
+
+.chalkboard{
+    background: white;
+    border:1px dashed white;
+}
+
+.chalkboard .border{
+    margin: 5px;
+    border:1px dashed black;
+}
+
+.border{
+    border-width: 1px;
+    border-style: solid;
+}
+
+#drawArea{
+    width:100%;
+    height:500px;
+    cursor: url(/images/pencil_cursor.png) 0 16, crosshair;
+
+}
+
+#palette{
+    margin-top:10px;
+}
+
+#palette  .item {
+    border: 1px solid #444;
+}
+
+#palette  .item.active{
+    border:1px dashed white;
+}
+
+#invite-friend .lead{
+    display: none;
+    font-size: 24px;
+    font-family: 'Varela', sans-serif;
+    letter-spacing: 5px;
+}
+
+#doodlers-list{
+    display: none;
+}
+
