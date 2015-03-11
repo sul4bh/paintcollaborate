@@ -57,3 +57,30 @@ h1{
     display: none;
 }
 
+.github{
+    margin-top:20px;
+    vertical-align: middle;
+}
+
+.github > span > img{
+    height:16px;
+    margin-top:-2px;
+}
+
+.github > span{
+    background-color: #ddd;
+    background-image: -webkit-linear-gradient(#eee, #ddd);
+    background-image: linear-gradient(#eee, #ddd);
+    border-radius: 3px;
+    border:1px solid #ccc;
+    padding:2px 5px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+
+}
+

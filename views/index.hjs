@@ -104,6 +104,12 @@
 
         </div>
 
+        <div class="text-center github">
+            <span>
+            <img src="/images/github.ico"> https://github.com/sul4bh/paintcollaborate
+            </span>
+        </div>
+
         <script src="/javascripts/vendor/jquery.js"></script>
         <script src="/javascripts/foundation.min.js"></script>
         <script src="/javascripts/paperjs/paper-full.min.js"></script>
