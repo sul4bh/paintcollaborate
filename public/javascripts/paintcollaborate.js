@@ -1,4 +1,4 @@
-var socket_uri = 'http://localhost:3000';
+var socket_uri = 'http://paintcollaborate.com/';
 
 paper.install(window);
 
@@ -123,7 +123,7 @@ var onLoadFunctions = {
 var websocket = {
     initiatewebsocket: function(){
         var name = $('input[name=creator_name]').val();
-        var socket = io.connect('http://localhost:3000');
+        var socket = io.connect(socket_uri);
         socket.on('send_me_id', function () {
             state.unique_id = Math.random().toString(36).slice(6);
             websocket.showUniqueId();
@@ -133,7 +133,7 @@ var websocket = {
 
         //public socket
         socket.on('join_namespace', function () {
-            state.namespace = io.connect('http://localhost:3000/' + state.unique_id);
+            state.namespace = io.connect(socket_uri + state.unique_id);
             state.namespace.emit('new_doodler', name);
             websocket.showDoodlers([name]);
 
@@ -150,7 +150,7 @@ var websocket = {
         var name = $('input[name=dooler_name]').val();
         var code = $('input[name=code]').val();
 
-        state.namespace = io.connect('http://localhost:3000/' + code);
+        state.namespace = io.connect(socket_uri + code);
 
         //register as a new doodler
         state.namespace.emit('new_doodler', name);
