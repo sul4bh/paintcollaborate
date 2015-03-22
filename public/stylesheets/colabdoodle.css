@@ -34,16 +34,37 @@ h1{
 
 }
 
-#palette{
-    margin-top:10px;
-}
-
 #palette  .item {
+    margin:1px;
     border: 1px solid #444;
 }
 
 #palette  .item.active{
     border:1px dashed white;
+}
+
+#palette .item.active.bg-white{
+    border:1px dashed black;
+}
+
+#widths{
+    margin-top: 10px;
+}
+
+#widths .width-item{
+    margin:1px;
+    text-align: center;
+    border: 1px solid #444;
+    background-color: #fff;
+}
+
+#widths .width-item.active{
+    border:1px dashed black;
+}
+
+#widths .width-item span {
+    margin: auto;
+    border-right: 1px solid;
 }
 
 #invite-friend .lead{
@@ -62,12 +83,12 @@ h1{
     vertical-align: middle;
 }
 
-.github > span > img{
+.github > a > img{
     height:16px;
     margin-top:-2px;
 }
 
-.github > span{
+.github > a{
     background-color: #ddd;
     background-image: -webkit-linear-gradient(#eee, #ddd);
     background-image: linear-gradient(#eee, #ddd);

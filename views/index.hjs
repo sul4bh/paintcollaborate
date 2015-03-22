@@ -100,14 +100,13 @@
             </div>
         </div>
 
-        <div id="palette">
-
-        </div>
+        <div id="widths"></div>
+        <div id="palette"></div>
 
         <div class="text-center github">
-            <span>
+            <a href="https://github.com/sul4bh/paintcollaborate" target="_blank">
             <img src="/images/github.ico"> https://github.com/sul4bh/paintcollaborate
-            </span>
+            </a>
         </div>
 
         <script src="/javascripts/vendor/jquery.js"></script>

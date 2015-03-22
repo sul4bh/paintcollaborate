@@ -8,9 +8,24 @@ var state = {
 };
 
 var onLoadFunctions = {
+    generateToolWidths: function() {
+        var toolWidth = [1, 2, 3, 4, 8, 10, 16, 20];
+        var row = $('<div class="row"></div>');
+        var widthItem;
+        for(var width in toolWidth) {
+            widthItem = $('<div data-width="' + toolWidth[width] + '" class="small-1 columns width-item"><span></span></div>');
+            $('span',widthItem).css('border-width', toolWidth[width]);
+            row.append(widthItem);
+        }
+        $('#widths').append(row);
+
+        row.children().first().addClass('small-offset-2');
+    },
+
     generatePalette: function(){
         //#https://github.com/mrmrs/colors
         var colors = {
+            black: "#111",
             aqua: "#7FDBFF",
             blue: "#0074D9",
             lime: "#01FF70",
@@ -25,8 +40,7 @@ var onLoadFunctions = {
             yellow: "#FFDC00",
             fuchsia: "#F012BE",
             gray: "#aaa",
-            white: "#fff",
-            black: "#111"
+            white: "#fff"
         };
 
         var row;
@@ -48,26 +62,44 @@ var onLoadFunctions = {
         $('.small-1:last-child', row).addClass('end');
     },
 
+    enableToolWidth: function() {
+        $('.width-item', $('#widths')).on('click', function(event){
+            $('.width-item', $('#widths')).removeClass('active');
+            $(this).addClass('active');
+            paper.strokeWidth = $(this).data('width');
+        });
+
+        //set initial width
+        $('.width-item', $('#widths')).first().trigger('click');
+    },
+
     enableColorSelection: function(){
         $('.item', $('#palette')).on('click',function(event){
             $('.item', $('#palette')).removeClass('active');
             $(this).addClass('active');
             paper.color = $(event.target).data('color');
         });
+
+        //set initial color
+        $('.item', $('#palette')).first().trigger('click');
     },
 
     initPaperJs: function(){
         var canvas = document.getElementById('drawArea');
         paper.setup(canvas);
         paper.color = 'black';
+        paper.strokeWidth = '1';
 
         var pencil = new Tool();
         var path;
         var draw_circle = true;
 
         pencil.onMouseDown = function(event) {
+
             path = new Path();
             path.strokeColor = paper.color;
+            path.strokeWidth = paper.strokeWidth;
+
             path.add(event.point);
             draw_circle = true;
         };
@@ -81,12 +113,11 @@ var onLoadFunctions = {
             if (draw_circle) {
                 var dot_circle = new Path.Circle({
                     center: event.point,
-                    radius: 0.25
+                    radius: paper.strokeWidth/2
                 });
-                dot_circle.strokeColor = paper.color;
+                dot_circle.fillColor = paper.color;
             }
-            path.smooth();
-
+            path.simplify();
 
             //if path is set, send path as svg to namespace
             if (state.namespace) {
