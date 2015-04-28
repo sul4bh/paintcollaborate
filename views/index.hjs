@@ -115,6 +115,14 @@
                                 <span class="kbd-text">permanent overlay</span>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="text-center">
+                                <kbd>S</kbd>
+                            </td>
+                            <td>
+                                <span class="kbd-text">save canvas</span>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
