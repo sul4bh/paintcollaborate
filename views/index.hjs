@@ -22,6 +22,7 @@
                 <ul class="button-group round text-center">
                     <li><a href="#" class="small button" id="invite-friend-button" data-reveal-id="invite-friend">invite friends</a></li>
                     <li><a href="#" class="small button" id="join-doodle-button" data-reveal-id="join-doodle">join a canvas</a></li>
+                    <li><a href="#" class="small button" id="help-button" data-reveal-id="help">help</a></li>
                 </ul>
             </div>
         </div>
@@ -32,8 +33,13 @@
 
             </div>
             <p>
-                Enter your name to get a code. Your friends can join your canvas by clicking 'join a canvas' and entering a code. To get a new code, refresh the main page.
+                Enter your name and select an image to get a code. Your friends can join your canvas by clicking 'join a canvas' and entering a code. To get a new code, refresh the main page.
             </p>
+
+            <p id="overlay-list">
+
+            </p>
+
 
             <form>
                 <div class="row">
@@ -71,12 +77,48 @@
                                 <input type="text" name="code" placeholder="Enter code">
                             </div>
                             <div class="small-3 columns">
-                                <a href="#" id="join-button" class="button postfix">Join</a>
+                                <a href="#" id="join-button" class="button postfix" onclick="$('#join-doodle').foundation('reveal', 'close');">Join</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <div id="help" class="reveal-modal small" data-reveal>
+            <h2>Help</h2>
+            <div class="row">
+                <div class="large-12 columns">
+                    <table>
+                        <tr>
+                            <td class="text-center">
+                                <kbd class="kbd-text">O</kbd>
+                            </td>
+                            <td>
+                                <span class="kbd-text">show overlay </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <kbd>U</kbd>
+                            </td>
+                            <td>
+                                <span class="kbd-text">delete previous</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <kbd>P</kbd>
+                            </td>
+                            <td>
+                                <span class="kbd-text">permanent overlay</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
             <a class="close-reveal-modal">&#215;</a>
         </div>
 
@@ -105,7 +147,7 @@
 
         <div class="text-center github">
             <a href="https://github.com/sul4bh/paintcollaborate" target="_blank">
-            <img src="/images/github.ico"> https://github.com/sul4bh/paintcollaborate
+                <img src="/images/github.ico"> https://github.com/sul4bh/paintcollaborate
             </a>
         </div>
 

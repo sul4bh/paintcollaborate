@@ -1,10 +1,12 @@
-var socket_uri = 'http://paintcollaborate.com/';
+var socket_uri = 'http://127.0.1:3000/';
 
 paper.install(window);
 
 var state = {
     unique_id: '',
-    namespace: ''
+    namespace: '',
+    recent_path: '',
+    overlay: ''
 };
 
 var onLoadFunctions = {
@@ -84,6 +86,23 @@ var onLoadFunctions = {
         $('.item', $('#palette')).first().trigger('click');
     },
 
+    genereteOverlayList: function(){
+        var overlays = ['everest.jpg', 'vangogh.jpg', 'monalisa.jpg', 'monet.jpg'];
+        for (var i in overlays){
+            $('#overlay-list').append(
+                '<img src="images/overlay/' + overlays[i] + '" class="small-3 overlay-image-placeholder" />'
+            );
+        }
+    },
+
+    enableOverlaySelection: function(){
+        $('.overlay-image-placeholder').on('click', function(){
+            $('.overlay-image-placeholder').removeClass('active');
+            $(this).addClass('active');
+            state.overlay = $(this).attr('src');
+        })
+    },
+
     initPaperJs: function(){
         var canvas = document.getElementById('drawArea');
         paper.setup(canvas);
@@ -95,7 +114,6 @@ var onLoadFunctions = {
         var draw_circle = true;
 
         pencil.onMouseDown = function(event) {
-
             path = new Path();
             path.strokeColor = paper.color;
             path.strokeWidth = paper.strokeWidth;
@@ -106,6 +124,7 @@ var onLoadFunctions = {
 
         pencil.onMouseDrag = function(event) {
             path.add(event.point);
+
             draw_circle = false;
         };
 
@@ -116,10 +135,12 @@ var onLoadFunctions = {
                     radius: paper.strokeWidth/2
                 });
                 dot_circle.fillColor = paper.color;
+                state.recent_path = dot_circle;
             }
             path.simplify();
+            state.recent_path = path;
 
-            //if path is set, send path as svg to namespace
+            //if namespace is set, send path as svg to namespace
             if (state.namespace) {
                 var path_svg = path.exportSVG(
                     {
@@ -129,12 +150,123 @@ var onLoadFunctions = {
                     }
                 );
                 state.namespace.emit('path', path_svg);
-                path.removeSegments();
+                path.remove();
             }
-
 
         }
     },
+
+    enableUndo: function(){
+        $(window).keypress(function (event) {
+            if (event.which == 117 && state.recent_path) { // 'u'
+                if (!state.namespace) {
+
+                    var matchingPath = paper.project.getItems({
+                        segments: state.recent_path.segments
+                    });
+
+                    for (var i in matchingPath){
+                        matchingPath[i].remove();
+                    }
+
+                    //state.recent_path.remove();
+                    paper.view.update();
+                }else{
+                    var path_svg = state.recent_path.exportSVG(
+                        {
+                            asString: true,
+                            precision: 5,
+                            matchShapes: false
+                        }
+                    );
+                    state.namespace.emit('delete', path_svg);
+                }
+
+                state.recent_path = '';
+            }
+        });
+    },
+
+    enableOverlayOnKeyPress: function() {
+        var overlay;
+        var overlayShown = false;
+
+        $(window).keydown(function (event) {
+            if (state.overlay) {
+                if (event.which == 79 && !overlayShown) { // 'o'
+
+                    if (state.overlay) {
+                        $('#overlay').remove();
+                        $('body').append(
+                            '<img id="overlay" src="' + state.overlay + '" />'
+                        );
+                    }
+
+                    overlay = new Raster('overlay');
+                    overlay.position = paper.view.center;
+                    overlay.opacity = 0.8;
+                    paper.view.update();
+
+                    overlayShown = true;
+                    event.preventDefault();
+                }
+            }
+
+        });
+
+
+
+        $(window).keyup(function (event) {
+            if (event.which == 79 && overlay){
+                overlay.remove();
+                paper.view.update();
+
+                overlayShown = false;
+                event.preventDefault();
+            }
+
+        });
+
+
+    },
+
+    enablePermanentOverlay: function() {
+        var overlay;
+        var overlayShown = false;
+
+        $(window).keydown(function (event) {
+            if (state.overlay) {
+                if (event.which == 80 && !overlayShown) { // 'p'
+
+                    if (state.overlay) {
+                        $('#overlay').remove();
+                        $('body').append(
+                            '<img id="overlay" src="' + state.overlay + '" />'
+                        );
+                    }
+
+                    overlay = new Raster('overlay');
+                    overlay.position = paper.view.center;
+                    overlay.opacity = 0.4;
+                    paper.view.update();
+
+                    overlayShown = true;
+                    event.preventDefault();
+                }
+                else if (event.which == 80 && overlayShown) { // 'p'
+
+                    overlay.remove();
+                    paper.view.update();
+
+                    overlayShown = false;
+                    event.preventDefault();
+                }
+            }
+
+        });
+
+    },
+
 
     initGetCodeButton: function(){
         $('#get-code-button').on('click', function(){
@@ -156,7 +288,7 @@ var websocket = {
         var name = $('input[name=creator_name]').val();
         var socket = io.connect(socket_uri);
         socket.on('send_me_id', function () {
-            state.unique_id = Math.random().toString(36).slice(6);
+            state.unique_id = Math.random().toString(36).substr(2, 5);
             websocket.showUniqueId();
             socket.emit('my_id', state.unique_id);
         });
@@ -188,6 +320,9 @@ var websocket = {
 
         //ask for initial svg
         state.namespace.emit('get_initial_svg');
+
+        //ask for overlay image
+        state.namespace.emit('get_overlay_img');
 
         websocket.addListenersToNamespacedSocket();
     },
@@ -225,11 +360,39 @@ var websocket = {
             paper.project.importSVG(data);
         });
 
+
+        //send overlay image
+        state.namespace.on('get_overlay_img', function(){
+            state.namespace.emit('overlay_img', state.overlay);
+        });
+
+        //on receiving overlay image, use it as the overlay image
+        state.namespace.on('overlay_img', function(data){
+            state.overlay = data;
+        });
+
+
         //on receiving a path, add it to the canvas
         state.namespace.on('path', function(data){
             var received_path = new Path();
             received_path.importSVG(data);
+
             paper.view.update();
+        });
+
+        //on receiving a delete, find a matching path and delete it
+        state.namespace.on('delete', function(data){
+            var received_path = paper.project.importSVG(data);
+
+            var matchingPath = paper.project.getItems({
+                segments: received_path.segments
+            });
+
+            for (var i in matchingPath){
+                matchingPath[i].remove();
+            }
+            paper.view.update();
+
         });
 
     }

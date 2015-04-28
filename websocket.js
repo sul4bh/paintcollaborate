@@ -30,9 +30,27 @@ var websocket  = {
                             namespace.emit('initial_svg', data);
                         });
 
+
+                        //forward initial overlay request to doodle leader
+                        socket.on('get_overlay_img', function(){
+                            globalData[namespace.name]['leader'].emit('get_overlay_img');
+                        });
+
+                        //on receiving initial svg from leader, forward to everybody on the namespace
+                        socket.on('overlay_img', function(data){
+                            namespace.emit('overlay_img', data);
+                        });
+
+
+
                         //forward path to everybody in a namespace
                         socket.on('path', function(data){
                             namespace.emit('path', data);
+                        });
+
+                        //forward delete to everybody in a namespace
+                        socket.on('delete', function(data){
+                            namespace.emit('delete', data);
                         });
 
                         //clean up after disconnect
@@ -69,6 +87,7 @@ var websocket  = {
     createNameSpaceDictionary: function(namespace, socket, name){
         if (Object.keys(globalData).indexOf(namespace.name) == -1) {
             globalData[namespace.name] = {
+                overlay: '',
                 leader: socket,
                 nodes: {}
             };
