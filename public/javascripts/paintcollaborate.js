@@ -142,6 +142,9 @@ var onLoadFunctions = {
 
             //if namespace is set, send path as svg to namespace
             if (state.namespace) {
+                if (draw_circle) {
+                    path = dot_circle;
+                }
                 var path_svg = path.exportSVG(
                     {
                         asString: true,
