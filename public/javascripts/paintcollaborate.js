@@ -286,11 +286,15 @@ var onLoadFunctions = {
         $('#save-canvas').on('click', function(){
             var fileName = "canvas.png";
 
-            var canvasAsPng =  project.layers[0].rasterize().toDataURL();
+            var pngLayer = project.getActiveLayer().clone();
+            var canvasAsPngRaster = pngLayer.rasterize();
+            var png = canvasAsPngRaster.toDataURL();
+            canvasAsPngRaster.remove();
+            pngLayer.remove();
 
             var link = document.createElement("a");
             link.download = fileName;
-            link.href = canvasAsPng;
+            link.href = png;
             link.click();
 
         });
