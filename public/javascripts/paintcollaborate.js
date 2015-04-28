@@ -230,24 +230,6 @@ var onLoadFunctions = {
 
         });
 
-        //save
-        $(window).keyup(function (event) {
-            if (event.which == '83'){ // 's'
-
-                var fileName = "canvas.png";
-
-                var canvasAsPng =  project.layers[0].rasterize().toDataURL();
-
-                var link = document.createElement("a");
-                link.download = fileName;
-                link.href = canvasAsPng;
-                link.click();
-            }
-        });
-
-
-
-
     },
 
     enablePermanentOverlay: function() {
@@ -298,7 +280,23 @@ var onLoadFunctions = {
         $('#join-button').on('click', function(){
             websocket.joinAFriend();
         })
+    },
+
+    enableSaveCanvas: function(){
+        $('#save-canvas').on('click', function(){
+            var fileName = "canvas.png";
+
+            var canvasAsPng =  project.layers[0].rasterize().toDataURL();
+
+            var link = document.createElement("a");
+            link.download = fileName;
+            link.href = canvasAsPng;
+            link.click();
+
+        });
     }
+
+
 
 
 };

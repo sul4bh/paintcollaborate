@@ -22,6 +22,7 @@
                 <ul class="button-group round text-center">
                     <li><a href="#" class="small button" id="invite-friend-button" data-reveal-id="invite-friend">invite friends</a></li>
                     <li><a href="#" class="small button" id="join-doodle-button" data-reveal-id="join-doodle">join a canvas</a></li>
+                    <li><a href="#" class="small button" id="save-canvas">save canvas</a></li>
                     <li><a href="#" class="small button" id="help-button" data-reveal-id="help">help</a></li>
                 </ul>
             </div>
@@ -113,14 +114,6 @@
                             </td>
                             <td>
                                 <span class="kbd-text">permanent overlay</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <kbd>S</kbd>
-                            </td>
-                            <td>
-                                <span class="kbd-text">save canvas</span>
                             </td>
                         </tr>
                     </table>
