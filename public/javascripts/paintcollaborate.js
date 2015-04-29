@@ -1,4 +1,5 @@
-var socket_uri = 'http://paintcollaborate.com/';
+// URI endpoint for socket connection
+var socket_uri;
 
 paper.install(window);
 
@@ -10,6 +11,11 @@ var state = {
 };
 
 var onLoadFunctions = {
+    initURLEndPoint: function(){
+        socket_uri = window.location.protocol + '//' + window.location.host + '/';
+        console.log(socket_uri);
+    },
+
     generateToolWidths: function() {
         var toolWidth = [1, 2, 3, 4, 8, 10, 16, 20];
         var row = $('<div class="row"></div>');
