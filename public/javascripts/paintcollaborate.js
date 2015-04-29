@@ -1,4 +1,4 @@
-var socket_uri = 'http://127.0.1:3000/';
+var socket_uri = 'http://paintcollaborate.com/';
 
 paper.install(window);
 
