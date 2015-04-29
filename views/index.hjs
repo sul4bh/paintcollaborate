@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="large-12 columns">
-                <ul class="button-group round text-center">
+                <ul class="button-group stack-for-small round text-center">
                     <li><a href="#" class="small button" id="invite-friend-button" data-reveal-id="invite-friend">invite friends</a></li>
                     <li><a href="#" class="small button" id="join-doodle-button" data-reveal-id="join-doodle">join a canvas</a></li>
                     <li><a href="#" class="small button" id="save-canvas">save canvas</a></li>
