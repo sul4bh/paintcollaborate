@@ -13,7 +13,6 @@ var state = {
 var onLoadFunctions = {
     initURLEndPoint: function(){
         socket_uri = window.location.protocol + '//' + window.location.host + '/';
-        console.log(socket_uri);
     },
 
     generateToolWidths: function() {
