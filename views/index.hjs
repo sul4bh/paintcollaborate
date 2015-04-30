@@ -89,6 +89,9 @@
 
         <div id="help" class="reveal-modal small" data-reveal>
             <h2>Help</h2>
+            <blockquote>
+                Paint Collaborate is collaborative canvas: you and your friends can draw together on a same canvas. Click <strong>'invite friends'</strong> in the menu to get started. After your friends have joined your canvas, you can use the following commands:
+            </blockquote>
             <div class="row">
                 <div class="large-12 columns">
                     <table>
